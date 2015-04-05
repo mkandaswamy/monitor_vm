@@ -1,0 +1,31 @@
+External packages needed to run the program:
+   Top and other programs which are on linux by default doesn't track io consumption on a per process
+  basis. It proved little hard to find a tool which does process level io tracking. I've used iotop 
+  to track the io consumption of a process in linux. iotop requires linux version > 2.6.20 and 
+  CONFIG_TASK_DELAY_ACCT, CONFIG_TASK_IO_ACCOUNTING, CONFIG_TASKSTATS and CONFIG_VM_EVENT_COUNTERS options 
+  need to be enabled in your Linux kernel build configuration if not already. 
+
+  It has to be installed with
+  $sudo apt-get install iotop (on Ubuntu)
+
+One more thing to note is iotop has to be run as root and hence the monitor_VM.py must be run as root. This is 
+due to a added security measure in linux.
+
+Python3:
+  I coded using python3 for this coding exercise.
+  Must be run as root as(for iotop),
+  #python3 monitor_VM.py
+
+Testing:
+  I used Digitalocean.com 512MB/1CPU cloud droplet instance to validate my program by monitoring for 30 mins.
+  I have used two types of processes - 
+	1. cpumemio-bound -- which does a mix of all cpu, memory and file io activities and tries to meet thresholds set.
+           The workload it generates may or may not go beyond threshold. 
+	2. sleep-bound -- which pretty much sleeps and does nothing to have atleast one under utilized process in output.
+  
+  Submitted code spawns 4 vms and tracks their stats for 10 minutes and figures out under utilized vm with cpu threshold
+  set at 10%, mem threshold at 10% and disk threshold at 100Kbps. Temp files are created under current directory which need
+  to be deleted manually.
+
+Code documentation:
+  I have added doc-strings in the source code to explain what the class/method does. 
